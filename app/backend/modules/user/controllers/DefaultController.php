@@ -10,9 +10,9 @@ use yii\web\Controller;
  */
 class DefaultController extends BaseAPIController
 {
-    public $author= 'ddd';
+    public $author= 'hl';
     public function actionIndex()
     {
-        return ['data'=>['de',2,3]];
+        return ['data'=>'default user api'];
     }
 }

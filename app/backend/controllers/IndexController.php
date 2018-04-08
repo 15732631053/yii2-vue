@@ -15,7 +15,7 @@ class IndexController extends BaseAPIController
     public function actionIndex()
     {
 
-        return ['data'=>['index'],'msg'=>'sadas'] ;
+        return ['data'=>['index'],'msg'=>'index api'] ;
     }
 
 }

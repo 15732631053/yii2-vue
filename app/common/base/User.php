@@ -62,22 +62,53 @@ class User extends \yii\db\ActiveRecord
      * @param $pwd
      * @return array|null|\yii\db\ActiveRecord
      */
-    public static function validatePassWd($name,$pwd){
-        return self::find()->where('username=:name and password=:pwd',[':name'=>$name,':pwd'=>$pwd])->one();
+    public static function validatePassWd($name, $pwd)
+    {
+        return self::find()->where('username=:name and password=:pwd', [':name' => $name, ':pwd' => $pwd])->one();
 
     }
-    public function registeUser($name,$pwd){
-        if($this->beforeRegist($name,$pwd)){
+
+    /**
+     * AppLication: registeUser  注册用户
+     * Author: hl
+     * @param $data
+     * @return bool
+     */
+    public function registeUser($data)
+    {
+        if ($this->beforeRegist($data)) {
+            $model = new User();
+            $params = [
+                'username' => $data['username'],
+                'password' => $data['pwd'],
+                'email' => $data['email'],
+                'created_at' => time(),
+                'updated_at' => time(),
+            ];
+            $model->setAttributes($params, false);
+            $res = $model->save();
+
 
         }
-        $this->afterRegist($name,$pwd);
+        if (!$res) return false;
+        return $this->afterRegist($data);
 
     }
-    protected function beforeRegist($name,$pwd){
 
+    protected function beforeRegist($data)
+    {
+        return true;
     }
-    protected function afterRegist($name,$pwd){
+
+    protected function afterRegist($data)
+    {
         //hook
+        return true;
 
+    }
+
+    public static function checkoutName($name)
+    {
+        return self::find()->where('username=:name ', [':name' => $name])->one();
     }
 }

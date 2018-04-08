@@ -59,7 +59,7 @@ service.interceptors.response.use(
 		const res = response.data;
 
 		if(res.code !== 200) {
-			console.log(res.code);
+
 			if(res.code == 401 || res.code == 403) {
 				MessageBox({
 					message: '没有操作权限,请联系管理员',
@@ -83,12 +83,12 @@ service.interceptors.response.use(
 			}
 
 		} else {
-			console.log('a');
+
 			return response;
 		}
 	},
 	error => {
-		console.log()
+
 		console.log('err' + error); // for debug
 		if(error.response.status == 401) {
 			MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {

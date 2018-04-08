@@ -1,6 +1,7 @@
 <?php
 $modules = [];
-$dirs = glob('..\modules\*');
+$dirs = glob('..'.DIRECTORY_SEPARATOR .'modules'.DIRECTORY_SEPARATOR .'*');
+
 foreach ($dirs as $id) {
     if (is_dir($id)) {
         $id = basename($id);

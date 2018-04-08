@@ -13,35 +13,50 @@ use yii\web\Controller;
 class UserController extends BaseAPIController
 {
 
-    public function actionIndex()
-    {
-        $id = $this->decodeID('uid');
-        $this->isRequired([], true);
-        $model = User::find()->where('id=:uid', [':uid' => $id])->asArray()->one();
-        $this->reponseType = 'item';
-        return ['data' => $model];
-    }
-
-    public function actionIndex2()
-    {
-        $id = $this->decodeID('id');
-        $this->isRequired([], true);
-        $model = User::find()->where('id=:id', [':id' => $id])->asArray()->one();
-        return ['data' => $model];
-    }
-
+    /**
+     * AppLication: actionLogin  登陆接口
+     * Author: hl
+     * @return array
+     */
     public function actionLogin()
     {
-        $this->isRequired(['name', 'password']);
+        $this->isRequired(['name', 'pwd']);
         $loginData = $this->json;
-        $userinfo = User::validatePassWd($loginData['name'], $loginData['password']);
+        $userinfo = User::validatePassWd($loginData['name'], $loginData['pwd']);
         if ($userinfo) {
             //设置token
 
             $this->token = UserToken::updataToken($userinfo->id);
             return ['data' => $userinfo->toArray()];
         } else {
-            return ['data' => [2]];
+            return ['data' => [],'msg'=>'登陆失败'];
         }
+    }
+
+    /**
+     * AppLication: actionCheckoutName  验证注册用户名接口
+     * Author: hl
+     * @return array
+     */
+    public function actionCheckoutName()
+    {
+        $this->isRequired(['username']);
+        $res = User::checkoutName($this->json['username']) ? '1' : '0';
+        return ['data' => $res, 'msg' => !$res ? '验证成功' : '用户名重复'];
+
+    }
+
+    /**
+     * AppLication: actionRegist  注册接口
+     * Author: hl
+     * @return array
+     */
+    public function actionRegist()
+    {
+        $this->isRequired(['username', 'pwd', 'email']);
+        $userModel = new User();
+        $res = $userModel->registeUser($this->json);
+        return [ 'data'=>$res];
+
     }
 }

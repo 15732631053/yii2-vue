@@ -9,13 +9,13 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-//        'db' => [
-//            'class' => 'yii\db\Connection',
-//            'dsn' => 'mysql:host=localhost;dbname=xuexi3',
-//            'username' => 'root',
-//            'password' => '',
-//            'charset' => 'utf8',
-//            'tablePrefix' => 'yx_'
-//        ],
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=vue',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+            'tablePrefix' => 'yx_'
+        ],
     ],
 ];

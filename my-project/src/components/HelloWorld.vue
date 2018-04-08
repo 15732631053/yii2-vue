@@ -88,22 +88,22 @@
 </template>
 
 <script>
-import {AxiosCreate} from '@/api/testAjax';
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      dataArr:[],
-    }
-  },
-  created () {
-//	var data={name:'admin',password:'admin'};
-  	var data={uid:'GkNedge7'}
-  	var submitFun = AxiosCreate.submitAdd(data);
-  	console.log(submitFun);
-  }
-}
+//import {AxiosCreate} from '@/api/testAjax';
+//export default {
+//name: 'HelloWorld',
+//data () {
+//  return {
+//    msg: 'Welcome to Your Vue.js App',
+//    dataArr:[],
+//  }
+//},
+//created () {
+////	var data={name:'admin',password:'admin'};
+//	var data={uid:'GkNedge7'}
+//	var submitFun = AxiosCreate.submitAdd(data);
+//	console.log(submitFun);
+//}
+//}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
