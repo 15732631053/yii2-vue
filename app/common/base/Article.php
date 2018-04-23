@@ -53,7 +53,7 @@ class Article extends \yii\db\ActiveRecord
         ];
     }
     public  function getList($config){
-        $uid = 1;
+        $uid = $config['uid']?$config['uid']:0;
         $offset=($config['page']-1)*$config['pagesize'];
         $count=self::find()->where('uid=:uid',['uid'=>$uid])->count();
         $page = new Pagination(['defaultPageSize' => isset($config['pagesize']) ? $config['pagesize'] : 10, 'totalCount' => $count]);

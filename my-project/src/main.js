@@ -9,6 +9,7 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/googlecode.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import store from './store/store'
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small' });
@@ -25,6 +26,7 @@ Vue.directive('highlight', (el) => {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
 	render: h => h(App)

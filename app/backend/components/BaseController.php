@@ -85,8 +85,7 @@ class BaseController extends Controller
 //        $response->data = $response->data; //在这里可以重置响应数据
 
         $response->format = Response::FORMAT_JSON;
-        \Yii::$app->getResponse()->getHeaders()->set('Access-Control-Allow-Origin', '*');
-        \Yii::$app->getResponse()->getHeaders()->set('Access-Control-Allow-Credentials', 'true');
+
         //jsonp 格式输出
         if (isset($_GET['callback'])) {
             $response->format = Response::FORMAT_JSONP;

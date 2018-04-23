@@ -49,7 +49,7 @@ class UserToken extends \yii\db\ActiveRecord
     }
 
     /**
-     * AppLication: checkToken  检查token
+     * AppLication: checkToken  检查token  refresh token
      * Author: hl
      * @param $uid int 用户id
      * @param $token string token
@@ -58,14 +58,10 @@ class UserToken extends \yii\db\ActiveRecord
     public static function checkToken($uid, $token)
     {
         $token = self::find()->where('uid=:uid and token=:token', [':uid' => $uid, ':token' => $token])->one();
-        if (!$token) return false;
-        if ($token && $token->expired > time()) return $token->token;
-        if ($token->expired < time()) {
-            $token->expired = time() + 600;//10分钟过期
-            $token->token = md5(time());
-            $token->save();
-            return $token->token;
-        }
+        if (!$token) return null;
+        if($token->expired < time()) return 0;
+        return $token->token;
+
     }
 
     /**
@@ -79,7 +75,7 @@ class UserToken extends \yii\db\ActiveRecord
         $token = self::find()->where('uid=:uid', [':uid' => $uid])->one();
         $params = [
             'token' => md5(time()),
-            'expired' => time() + 600,
+            'expired' => time() + 7 * 24 * 60 * 60, //7 days
         ];
         if (!$token) {
             $token = new UserToken();

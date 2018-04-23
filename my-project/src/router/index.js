@@ -5,7 +5,7 @@ import login from '@/views/login/Login';
 import regist from '@/views/login/Regist';
 import article from '@/views/article/Article'
 import list from '@/views/article/List';
-import edit_article from '@/views/article/edit'
+import edit_article from '@/views/article/Edit'
 
 Vue.use(Router)
 

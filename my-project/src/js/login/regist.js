@@ -90,6 +90,14 @@ export default {
 	//created () {
 	// console.log(validatePass);
 	//	},
+	created() {
+		if(this.$store.state.loginInfo !== null) {
+			this.$router.push({
+				name: 'list',
+				params: {}
+			})
+		}
+	},
 	methods: {
 		submitForm(formName) {
 
@@ -108,6 +116,13 @@ export default {
 								}
 							});
 
+							var router = this.$router;
+							setTimeout(function() {
+								router.push({
+									name: 'list',
+									params: {}
+								})
+							}, 5000);
 						}
 
 					})

@@ -19,6 +19,7 @@ class ArticleController extends BaseAPIController
      */
     public function actionList()
     {
+        $this->isRequired([],true);
         $model = new Article();
         $model = $model->getList($this->json);
         $this->reponseType='list';
@@ -43,8 +44,8 @@ class ArticleController extends BaseAPIController
      * @return array
      */
     public function actionCreate(){
-//        $this->isRequired(['uid']);
-        $uid=1;
+        $this->isRequired([],true);
+        $uid=$this->uid;
 //        $id=$this->decodeID('id');
         $params=[
             'title'=>$this->json['title'],

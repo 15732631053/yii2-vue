@@ -16,16 +16,14 @@ export default {
 	components: {
 
 	},
-	created() {
+	mounted : function() {
 		AxiosCreate.getlist(this.pageConfig).then(response => {
-			if(response.data.data) {
+			if(response) {
 				this.list = (response.data.data);
 				this.pageConfig.page = parseInt(response.data.page)
-				console.log(response.data.counts);
 				this.total = parseInt(response.data.counts)
 
 			}
-
 		})
 	},
 	methods: {

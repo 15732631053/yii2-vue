@@ -54,10 +54,12 @@ class BaseAPIController extends BaseController
      */
     public $reponseType = 'item';
     public $token;
-
+    public $uid = 0;
     public function init()
     {
 //        header("Access-Control-Allow-Origin: *"); // 允许任意域名发起的跨域请求
+        \Yii::$app->getResponse()->getHeaders()->set('Access-Control-Allow-Origin', '*');
+        \Yii::$app->getResponse()->getHeaders()->set('Access-Control-Allow-Credentials', 'true');
         $this->hash = new Hashids($this->hashSort, 8);
         $post = Yii::$app->request->post();
         $get = Yii::$app->request->get();
@@ -73,7 +75,7 @@ class BaseAPIController extends BaseController
         return [
             [
                 'code' => '400',
-                'msg' => '',
+                'msg' => '需要登陆',
             ],
             [
                 'code' => '401',
@@ -126,10 +128,12 @@ class BaseAPIController extends BaseController
     public function errMsg($code, $msg)
     {
         header('Content-Type:application/json; charset=utf-8');
+        header("Access-Control-Allow-Origin: *");
         $this->errMsg = [
             'code' => $code,
             'msg' => $msg,
             'status' => 'N',
+            'data' =>[],
             'author' => $this->author,
         ];
         $return = json_encode($this->errMsg);
@@ -147,7 +151,7 @@ class BaseAPIController extends BaseController
     protected function checkSign()
     {
         ksort($this->json);//按字母顺序排序
-        if (!array_key_exists('sign', $this->json)) $this->errMsg('400', '缺少sign');
+        if (!array_key_exists('sign', $this->json)) $this->errMsg('401', '缺少sign');
         $sign = $this->json['sign'];
         unset($this->json['sign']);
         $keys = '';
@@ -173,8 +177,10 @@ class BaseAPIController extends BaseController
         if ($token) {
             $this->token = $token;
             return $token;
-        } else {
+        } else if($token===null){
             $this->errMsg('400', 'token不存在');
+        }else{
+            $this->errMsg('400', 'token过期');
         }
     }
 
@@ -185,6 +191,15 @@ class BaseAPIController extends BaseController
      */
     protected function checkJson()
     {
+        if($this->json['uid']) {
+           $uid = $this->hash->decode($this->json['uid']);
+            if (!$uid) {
+                $this->errMsg('403', '用户不存在');
+                return false;
+            }
+            $this->uid = $uid[0];
+            $this->json['uid']=$uid[0];
+        }
         if (!$this->requestId) return true;
         foreach (explode(',', $this->requestId) as $v) {
             if (array_key_exists($v, $this->json)) {
@@ -278,6 +293,7 @@ class BaseAPIController extends BaseController
         $data['runtime'] = $this->runtimes();
         $data['author'] = $this->author;
         $data['token'] = $this->token;
+        $data['uid'] = $this->hash->encode($this->uid);
         if (!array_key_exists('status', $result)) $data['status'] = 'Y';
         if (!array_key_exists('code', $result)) $data['code'] = intval('200');
         $data = $data + $result;

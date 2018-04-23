@@ -27,6 +27,7 @@ class UserController extends BaseAPIController
             //设置token
 
             $this->token = UserToken::updataToken($userinfo->id);
+            $this->uid = $userinfo->id;
             return ['data' => $userinfo->toArray()];
         } else {
             return ['data' => [],'msg'=>'登陆失败'];
