@@ -18,7 +18,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
+        //test
         // custom initialization code goes here
     }
 }
